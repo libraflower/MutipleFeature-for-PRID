@@ -126,38 +126,30 @@ class MultipleFeatures(nn.Module):
         x3 = self.layer3(x2)
         x4 = self.layer4(x3)
 
-        #平均池化到24*8 x4的大小本身就为24*8
-
         x1_avg = self.maxpoolall(x1)
         x2_avg = self.maxpoolall(x2)
         x3_avg = x3
         x4_avg = x4
         x_cat = torch.cat((x1_avg,x2_avg,x3_avg,x4_avg),dim=1)
 
-        #对feature map分块成P1-P6 每一块的维度为 4*8*3840
         p1 = x_cat[:, :, 0:4, :]
         p2 = x_cat[:, :, 4:8, :]
         p3 = x_cat[:, :, 8:12, :]
         p4 = x_cat[:, :, 12:16, :]
         p5 = x_cat[:, :, 16:20, :]
         p6 = x_cat[:, :, 20:24, :]
-
-        #金字塔第一层 维度为24*8*3840
         py1 = x_cat
         py1id , py1tr ,test11= self.classifierlayer1_1(py1)
-        #金字塔第二层 维度为20*8*3840
         py21 = torch.cat((p1, p2, p3, p4, p5), dim=2)
         py21id, py21tr , test21 = self.classifierlayer2_1(py21)
         py22 = torch.cat((p2, p3, p4, p5, p6), dim=2)
         py22id, py22tr , test22 = self.classifierlayer2_2(py22)
-        #金字塔第三层 维度为16*8*3840
         py31 = torch.cat((p1, p2, p3, p4), dim=2)
         py31id, py31tr ,test31 = self.classifierlayer3_1(py31)
         py32 = torch.cat((p2, p3, p4, p5), dim=2)
         py32id, py32tr ,test32 = self.classifierlayer3_2(py32)
         py33 = torch.cat((p3, p4, p5, p6), dim=2)
         py33id, py33tr ,test33 = self.classifierlayer3_3(py33)
-        #金字塔第四层 维度为12*8*3840
         py41 = torch.cat((p1, p2, p3), dim=2)
         py41id, py41tr ,test41 = self.classifierlayer4_1(py41)
         py42 = torch.cat((p2, p3, p4), dim=2)
@@ -166,7 +158,6 @@ class MultipleFeatures(nn.Module):
         py43id, py43tr ,test43 = self.classifierlayer4_3(py43)
         py44 = torch.cat((p4, p5, p6), dim=2)
         py44id, py44tr ,test44 = self.classifierlayer4_4(py44)
-        #金字塔第五层 维度为8*8*3840
         py51 = torch.cat((p1, p2), dim=2)
         py51id, py51tr ,test51 = self.classifierlayer5_1(py51)
         py52 = torch.cat((p2, p3), dim=2)
@@ -177,7 +168,6 @@ class MultipleFeatures(nn.Module):
         py54id, py54tr ,test54 = self.classifierlayer5_4(py54)
         py55 = torch.cat((p5, p6), dim=2)
         py55id, py55tr ,test55 = self.classifierlayer5_5(py55)
-        #金字塔第六层  4*8*3840
         py61 = p1
         py61id, py61tr ,test61 = self.classifierlayer6_1(py61)
         py62 = p2
