@@ -4,8 +4,8 @@ the code is the mutiplefeature-for-PRID
 ### Prerequisites
 * Pytorch(0.4.0+)
 * cuda 9.0
-* python3.6
-* 1GPUs,memory>24G
+* python 3.6
+* 1GPUs,memory>24G，we recommend tesla V100
 * APEX,if there is
 
 ### Datasets
