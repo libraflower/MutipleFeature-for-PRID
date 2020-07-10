@@ -118,7 +118,7 @@ python3 evaluate_gpu.py
 # Also, you can use the reranking
 python3 evaluate_rerank.py
 ```
-| dataset | rank-1 | rank-5 | rank-10 |mAP|
+| dataset | TOP@1 | TOP@5 | TOP@10 |mAP|
 | :------: | :------: | :------: | :------: | :------: |
 | CUHK_Detected| 0.775000 | 0.894286 | 0.932857 |0.724668|
 | CUHK_Labeled | 0.802857 | 0.912143 | 0.954286 |0.761700|
