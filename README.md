@@ -5,7 +5,7 @@ the code is the mutiplefeature-for-PRID
 * Pytorch(0.4.0+)
 * cuda 9.0
 * python3.6
-* 1GPUs>24G
+* 1GPUs,memory>24G
 ### Dataset
 To use our code, firstly you should download ReID dataset (Market1501,DukeMTMC-reID,CUHK03-NP and MSMT17) from [Here](https://pan.baidu.com/s/1G_Ygn68UolKhmiu1eGliLg)(saqs).
 
