@@ -1,4 +1,4 @@
-# MutipeFeature-for-PRID
+# MutipleFeature-for-PRID
 MutipleFeature-for-PRID is implemented in PyTorch
 
 ### Prerequisites
