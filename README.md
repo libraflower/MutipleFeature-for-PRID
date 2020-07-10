@@ -110,6 +110,14 @@ python3 test.py --gpu_ids ... --data_dir ../cuhk03-np/detected/pytorch  --name .
 
 ### Evaluation
 
+```
+# 
+python3 evaluate.py
+# If you want to abtain results quickly you can do:
+python3 evaluate_gpu.py
+# Also, you can use the reranking
+python3 evaluate_rerank.py
+```
 | dataset | rank-1 | rank-5 | rank-10 |mAP|
 | :------: | :------: | :------: | :------: | :------: |
 | CUHK_Detected| 0.775000 | 0.894286 | 0.932857 |0.724668|
