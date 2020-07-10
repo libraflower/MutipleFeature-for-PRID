@@ -126,4 +126,8 @@ parser.add_argument('--test_dir',default='...\DukeMTMC-reID\pytorch',type=str, h
 python3 demo.py --test_dir ../cuhk03-np/labeled/pytorch 
 python3 test.py --test_dir ../cuhk03-np/detected/pytorch 
 ```
-
+<img src="https://github.com/libraflower/mutiplefeature-for-PRID/blob/master/damo/1show.png"  height="250" width="500">
+<img src="https://github.com/libraflower/mutiplefeature-for-PRID/blob/master/damo/2show.png"  height="250" width="500">
+<img src="https://github.com/libraflower/mutiplefeature-for-PRID/blob/master/damo/3show.png"  height="250" width="500">
+<img src="https://github.com/libraflower/mutiplefeature-for-PRID/blob/master/damo/26show.png"  height="250" width="500">
+<img src="https://github.com/libraflower/mutiplefeature-for-PRID/blob/master/damo/27show.png"  height="250" width="500">
