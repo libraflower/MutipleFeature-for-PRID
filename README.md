@@ -11,7 +11,7 @@ MutipleFeature-for-PRID is implemented in PyTorch
 ### Datasets
 To use our code, firstly you should download ReID dataset (Market1501,DukeMTMC-reID,CUHK03-NP and MSMT17) from [Here](https://pan.baidu.com/s/1G_Ygn68UolKhmiu1eGliLg)(saqs).
 
-Then, the dataset folder should be as below(such as CUHK03):
+Here we use the CUHK03 dataset as an example for description.
 
 "detected" means the bounding boxes are estimated by pedestrian detector
 
