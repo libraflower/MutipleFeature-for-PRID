@@ -111,7 +111,7 @@ python3 test.py --gpu_ids ... --data_dir ../cuhk03-np/detected/pytorch  --name .
 ### Evaluation
 
 ```
-# 
+# Using CPU
 python3 evaluate.py
 # If you want to abtain results quickly you can do:
 python3 evaluate_gpu.py
