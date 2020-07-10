@@ -6,6 +6,8 @@ the code is the mutiplefeature-for-PRID
 * cuda 9.0
 * python3.6
 * 1GPUs,memory>24G
+* APEX,if there is
+
 ### Dataset
 To use our code, firstly you should download ReID dataset (Market1501,DukeMTMC-reID,CUHK03-NP and MSMT17) from [Here](https://pan.baidu.com/s/1G_Ygn68UolKhmiu1eGliLg)(saqs).
 
