@@ -89,8 +89,21 @@ python3 train.py --gpu_ids .. --name .. --data_dir ../cuhk03-np/detected/pytorch
 
 ### Test
 ```
-python3 test.py --gpu_ids ... --name ... --batchsize 64 --epochnum last --train_all --attentionmodel --testing
-python3 test.py --gpu_ids ... --name ... --batchsize 64 --epochnum last --train_all --attentionmodel --testing
+parser = argparse.ArgumentParser(description='testing')
+parser.add_argument('--gpu_ids',default='1', type=str,help='gpu_ids: e.g. 0  0,1,2  0,2')
+parser.add_argument('--name',default='duke', type=str, help='output model name')
+parser.add_argument('--test_dir',default='.../cuhk03-np/labeled/pytorch',type=str, help='training dir path')
+parser.add_argument('--train_all', action='store_true', help='use all training data' )
+parser.add_argument('--batchsize', default=64, type=int, help='batchsize')
+parser.add_argument('--epochnum', default='last', type=str, help='please to select the epoch num')
+parser.add_argument('--testing', action='store_true', help='import testing features')
+parser.add_argument('--attentionmodel', action='store_true', help='use the attention model')
+opt = parser.parse_args()
+```
+
+```
+python3 test.py --gpu_ids ... --data_dir ../cuhk03-np/labeled/pytorch --name ... --batchsize 64 --epochnum last --train_all --attentionmodel --testing
+python3 test.py --gpu_ids ... --data_dir ../cuhk03-np/detected/pytorch  --name ... --batchsize 64 --epochnum last --train_all --attentionmodel --testing
 ```
 
 ## Evaluation
