@@ -8,7 +8,7 @@ the code is the mutiplefeature-for-PRID
 * 1GPUs,memory>24G
 * APEX,if there is
 
-### Dataset
+### Datasets
 To use our code, firstly you should download ReID dataset (Market1501,DukeMTMC-reID,CUHK03-NP and MSMT17) from [Here](https://pan.baidu.com/s/1G_Ygn68UolKhmiu1eGliLg)(saqs).
 
 Then, the dataset folder should be as below(such as CUHK03):
@@ -49,7 +49,7 @@ CUHK03_np
 
 ### Train
 first ,you must run the perpare.py to get 'pytorch' folder
-In our train.py,we give you some options,as follow:
+In our train.py,we give you some options,as follows:
 ```
 parser = argparse.ArgumentParser(description='Training')
 #you can choose the gpu to run the trainmodel.
@@ -108,10 +108,22 @@ python3 test.py --gpu_ids ... --data_dir ../cuhk03-np/labeled/pytorch --name ...
 python3 test.py --gpu_ids ... --data_dir ../cuhk03-np/detected/pytorch  --name ... --batchsize 64 --epochnum last --train_all --attentionmodel --testing
 ```
 
-## Evaluation
+### Evaluation
 
 | dataset | rank-1 | rank-5 | rank-10 |mAP|
 | :------: | :------: | :------: | :------: | :------: |
 | CUHK_Detected| 0.775000 | 0.894286 | 0.932857 |0.724668|
 | CUHK_Labeled | 0.802857 | 0.912143 | 0.954286 |0.761700|
 | DukeMTMC-reID| 0.901729 | 0.945242 | 0.960952 |0.801553|
+
+### Visualization
+```
+#you should choose the dateset dir
+parser.add_argument('--test_dir',default='...\DukeMTMC-reID\pytorch',type=str, help='./test_data')
+```
+
+```
+python3 demo.py --test_dir ../cuhk03-np/labeled/pytorch 
+python3 test.py --test_dir ../cuhk03-np/detected/pytorch 
+```
+
