@@ -50,7 +50,7 @@ CUHK03_np
 ### Train
 First ,you must run the perpare.py to get 'pytorch' folder.
 
-You need prepare your dataset-dir in the py flie
+You need prepare your dataset-dir in the 'prepare.py' flie
 ```
 download_path = '.../dataset/CUHK'
 ```
