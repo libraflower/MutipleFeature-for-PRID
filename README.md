@@ -19,7 +19,7 @@ Then, the dataset folder should be as below(such as CUHK03):
 ```
 CUHK03_np
 │ 
-└───Labelde
+└───Labeled
 │   └───bounding_box_test
 │   │   │   0003_c1_21.jpg
 │   │   │   0003_c1_23.jpg
