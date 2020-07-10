@@ -15,16 +15,13 @@ Then, the dataset folder should be as below(such as CUHK03):
 
 "labeled" means the bounding boxes are labeled by human
 ```
-CUHK03
+CUHK03_np
 │ 
 └───Labelde
-│   │
-│   │
 │   └───bounding_box_test
 │   │   │   0003_c1_21.jpg
 │   │   │   0003_c1_23.jpg
 │   │   │   ...
-│   │
 │   └───bounding_box_train
 │   │   │   0001_c1_1.png
 │   │   │   0001_c1_2.png
@@ -33,15 +30,11 @@ CUHK03
 │   │   │   0003_c1_22.png
 │   │   │   0003_c2_27.png
 │   │   │   ...
-│
 └───detected
-│   │  
-│   │
 │   └───bounding_box_test
 │   │   │   0003_c1_21.jpg
 │   │   │   0003_c1_23.jpg
 │   │   │   ...
-│   │
 │   └───bounding_box_train
 │   │   │   0001_c1_1.png
 │   │   │   0001_c1_2.png
@@ -53,6 +46,7 @@ CUHK03
 ```
 
 ### Train
+first ,you must run the perpare.py to get 'pytorch' folder
 In our train.py,we give you some options,as follow:
 ```
 parser = argparse.ArgumentParser(description='Training')
@@ -85,3 +79,24 @@ parser.add_argument('--attentionmodel', action='store_true', help='use the atten
 #change to the test process.
 parser.add_argument('--testing', action='store_true', help='import testing features')
 ```
+
+### Usage
+```
+python3 train.py --gpu_ids .. --name .. --data_dir ../cuhk03-np/labeled/pytorch --batchsize 64 --erasing_p 0.5 --warm_epoch 10 --epochnum 150 --base_lr 0.01 --tripletmargin 1.0 --warmup_begin_lr 3e-4 --factor 0.5  --attentionmodel
+
+python3 train.py --gpu_ids .. --name .. --data_dir ../cuhk03-np/detected/pytorch --batchsize 64 --erasing_p 0.5 --warm_epoch 10 --epochnum 150 --base_lr 0.01 --tripletmargin 1.0 --warmup_begin_lr 3e-4 --factor 0.5  --attentionmodel
+```
+
+### Test
+```
+python3 test.py --gpu_ids ... --name ... --batchsize 64 --epochnum last --train_all --attentionmodel --testing
+python3 test.py --gpu_ids ... --name ... --batchsize 64 --epochnum last --train_all --attentionmodel --testing
+```
+
+## Evaluation
+
+| dataset | rank-1 | rank-5 | rank-10 |mAP|
+| :------: | :------: | :------: | :------: | :------: |
+| CUHK_Detected| 0.775000 | 0.894286 | 0.932857 |0.724668|
+| CUHK_Labeled | 0.802857 | 0.912143 | 0.954286 |0.761700|
+| DukeMTMC-reID| 0.901729 | 0.945242 | 0.960952 |0.801553|
