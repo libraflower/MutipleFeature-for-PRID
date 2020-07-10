@@ -48,7 +48,12 @@ CUHK03_np
 ```
 
 ### Train
-First ,you must run the perpare.py to get 'pytorch' folder
+First ,you must run the perpare.py to get 'pytorch' folder.
+
+You need prepare your dataset-dir in the py flie
+```
+download_path = '.../dataset/CUHK'
+```
 In our train.py,we give you some options,as follows:
 ```
 parser = argparse.ArgumentParser(description='Training')
