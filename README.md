@@ -8,8 +8,11 @@ the code is the mutiplefeature-for-PRID
 * 1GPUs>24G
 ### Dataset
 To use our code, firstly you should download ReID dataset (Market1501,DukeMTMC-reID,CUHK03-NP and MSMT17) from [Here](https://pan.baidu.com/s/1G_Ygn68UolKhmiu1eGliLg)(saqs).
+
 Then, the dataset folder should be as below(such as CUHK03):
+
 "detected" means the bounding boxes are estimated by pedestrian detector
+
 "labeled" means the bounding boxes are labeled by human
 ```
 CUHK03
