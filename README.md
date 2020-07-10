@@ -53,7 +53,7 @@ CUHK03
 ```
 
 ### Train
-in our train.py,we give you some options,as follow:
+In our train.py,we give you some options,as follow:
 ```
 parser = argparse.ArgumentParser(description='Training')
 #you can choose the gpu to run the trainmodel.
