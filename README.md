@@ -2,11 +2,11 @@
 the code is the mutiplefeature-for-PRID
 
 ### Prerequisites
-* Pytorch(0.4.0+)
+* Pytorch 1.0
 * cuda 9.0
 * python 3.6
-* 1GPUs,memory>24G，we recommend tesla V100
-* APEX,if there is
+* 1GPUs,memory>24G，we recommend Tesla V100
+
 
 ### Datasets
 To use our code, firstly you should download ReID dataset (Market1501,DukeMTMC-reID,CUHK03-NP and MSMT17) from [Here](https://pan.baidu.com/s/1G_Ygn68UolKhmiu1eGliLg)(saqs).
