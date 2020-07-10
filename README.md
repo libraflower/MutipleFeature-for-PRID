@@ -11,6 +11,7 @@ To use our code, firstly you should download ReID dataset (Market1501,DukeMTMC-r
 Then, the dataset folder should be as below(such as CUHK03):
 "detected" means the bounding boxes are estimated by pedestrian detector
 "labeled" means the bounding boxes are labeled by human
+```
 CUHK03
 │ 
 └───Labelde
@@ -46,4 +47,4 @@ CUHK03
 │   │   │   0003_c1_22.png
 │   │   │   0003_c2_27.png
 │   │   │   ...
-
+```
