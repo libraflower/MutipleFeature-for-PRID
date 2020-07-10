@@ -48,7 +48,7 @@ CUHK03_np
 ```
 
 ### Train
-first ,you must run the perpare.py to get 'pytorch' folder
+First ,you must run the perpare.py to get 'pytorch' folder
 In our train.py,we give you some options,as follows:
 ```
 parser = argparse.ArgumentParser(description='Training')
