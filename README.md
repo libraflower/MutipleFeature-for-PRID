@@ -5,7 +5,7 @@ MutipleFeature-for-PRID is implemented in PyTorch
 * Pytorch 1.0
 * cuda 9.0
 * python 3.6
-* 1GPUs,memory>24G，we recommend Tesla V100
+* 1GPUs Memory>24G We Recommend Tesla V100
 
 
 ### Datasets
