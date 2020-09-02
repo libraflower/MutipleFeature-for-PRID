@@ -137,7 +137,7 @@ parser.add_argument('--test_dir',default='...\DukeMTMC-reID\pytorch',type=str, h
 
 ```
 python3 demo.py --test_dir ../cuhk03-np/labeled/pytorch 
-python3 test.py --test_dir ../cuhk03-np/detected/pytorch 
+python3 demo.py --test_dir ../cuhk03-np/detected/pytorch 
 ```
 ![Alt text](https://github.com/libraflower/MutipleFeature-for-PRID/blob/master/damo/1show.png)
 ![Alt text](https://github.com/libraflower/MutipleFeature-for-PRID/blob/master/damo/2show.png)
