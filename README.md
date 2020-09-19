@@ -118,7 +118,7 @@ python3 test.py --gpu_ids ... --data_dir ../cuhk03-np/detected/pytorch  --name .
 ```
 # Using CPU
 python3 evaluate.py
-# If you want to abtain results quickly you can do:
+# If you want to attain results quickly you can do:
 python3 evaluate_gpu.py
 # Also, you can use the reranking
 python3 evaluate_rerank.py
