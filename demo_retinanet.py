@@ -1,4 +1,11 @@
-# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+# -*- coding: utf-8 -*-
+"""
+ @File    : demo_retinanet.py
+ @Time    : 2020/5/16 下午9:59
+ @Author  : yizuotian
+ @Description    :
+"""
+
 import argparse
 import multiprocessing as mp
 import os
@@ -13,9 +20,9 @@ from detectron2.data import MetadataCatalog
 from detectron2.data.detection_utils import read_image
 from detectron2.modeling import build_model
 from detectron2.utils.logger import setup_logger
-from grad_cam import GradCAM, GradCamPlusPlus
 from skimage import io
-from torch import nn
+
+from grad_cam_retinanet import GradCAM, GradCamPlusPlus
 
 # constants
 WINDOW_NAME = "COCO detections"
@@ -32,54 +39,6 @@ def setup_cfg(args):
     cfg.MODEL.PANOPTIC_FPN.COMBINE.INSTANCES_CONFIDENCE_THRESH = args.confidence_threshold
     cfg.freeze()
     return cfg
-
-
-def get_last_conv_name(net):
-    """
-    获取网络的最后一个卷积层的名字
-    :param net:
-    :return:
-    """
-    layer_name = None
-    for name, m in net.named_modules():
-        if isinstance(m, nn.Conv2d):
-            layer_name = name
-    return layer_name
-
-
-class GuidedBackPropagation(object):
-
-    def __init__(self, net):
-        self.net = net
-        for (name, module) in self.net.named_modules():
-            if isinstance(module, nn.ReLU):
-                module.register_backward_hook(self.backward_hook)
-        self.net.eval()
-
-    @classmethod
-    def backward_hook(cls, module, grad_in, grad_out):
-        """
-
-        :param module:
-        :param grad_in: tuple,长度为1
-        :param grad_out: tuple,长度为1
-        :return: tuple(new_grad_in,)
-        """
-        return torch.clamp(grad_in[0], min=0.0),
-
-    def __call__(self, inputs, index=0):
-        """
-
-        :param inputs: {"image": [C,H,W], "height": height, "width": width}
-        :param index: 第几个边框
-        :return:
-        """
-        self.net.zero_grad()
-        output = self.net.inference([inputs])
-        score = output[0]['instances'].scores[index]
-        score.backward()
-
-        return inputs['image'].grad  # [3,H,W]
 
 
 def norm_image(image):
@@ -112,22 +71,17 @@ def gen_cam(image, mask):
     return norm_image(cam), heatmap
 
 
-def gen_gb(grad):
-    """
-    生guided back propagation 输入图像的梯度
-    :param grad: tensor,[3,H,W]
-    :return:
-    """
-    # 标准化
-    grad = grad.data.numpy()
-    gb = np.transpose(grad, (1, 2, 0))
-    return gb
-
-
-def save_image(image_dicts, input_image_name, network='frcnn', output_dir='./results'):
+def save_image(image_dicts, input_image_name, layer_name, network='retinanet', output_dir='./results'):
     prefix = os.path.splitext(input_image_name)[0]
     for key, image in image_dicts.items():
-        io.imsave(os.path.join(output_dir, '{}-{}-{}.jpg'.format(prefix, network, key)), image)
+        if key == 'predict_box':
+            io.imsave(os.path.join(output_dir,
+                                   '{}-{}-{}.jpg'.format(prefix, network, key)),
+                      image)
+        else:
+            io.imsave(os.path.join(output_dir,
+                                   '{}-{}-{}-{}.jpg'.format(prefix, network, layer_name, key)),
+                      image)
 
 
 def get_parser():
@@ -157,6 +111,8 @@ def get_parser():
         default=[],
         nargs=argparse.REMAINDER,
     )
+    parser.add_argument('--layer-name', type=str, default='head.cls_subnet.2',
+                        help='使用哪层特征去生成CAM')
     return parser
 
 
@@ -186,7 +142,7 @@ def main(args):
     inputs = {"image": image, "height": height, "width": width}
 
     # Grad-CAM
-    layer_name = get_last_conv_name(model)
+    layer_name = args.layer_name
     grad_cam = GradCAM(model, layer_name)
     mask, box, class_id = grad_cam(inputs)  # cam mask
     grad_cam.remove_handlers()
@@ -196,12 +152,13 @@ def main(args):
     img = original_image[..., ::-1]
     x1, y1, x2, y2 = box
     image_dict['predict_box'] = img[y1:y2, x1:x2]
-    image_cam, image_dict['heatmap'] = gen_cam(img[y1:y2, x1:x2], mask)
+    image_cam, image_dict['heatmap'] = gen_cam(img[y1:y2, x1:x2], mask[y1:y2, x1:x2])
 
     # Grad-CAM++
     grad_cam_plus_plus = GradCamPlusPlus(model, layer_name)
     mask_plus_plus = grad_cam_plus_plus(inputs)  # cam mask
-    _, image_dict['heatmap++'] = gen_cam(img[y1:y2, x1:x2], mask_plus_plus)
+
+    _, image_dict['heatmap++'] = gen_cam(img[y1:y2, x1:x2], mask_plus_plus[y1:y2, x1:x2])
     grad_cam_plus_plus.remove_handlers()
 
     # 获取类别名称
@@ -211,27 +168,17 @@ def main(args):
     label = meta.thing_classes[class_id]
 
     print("label:{}".format(label))
-    # # GuidedBackPropagation
-    # gbp = GuidedBackPropagation(model)
-    # inputs['image'].grad.zero_()  # 梯度置零
-    # grad = gbp(inputs)
-    # print("grad.shape:{}".format(grad.shape))
-    # gb = gen_gb(grad)
-    # gb = gb[y1:y2, x1:x2]
-    # image_dict['gb'] = gb
-    # # 生成Guided Grad-CAM
-    # cam_gb = gb * mask[..., np.newaxis]
-    # image_dict['cam_gb'] = norm_image(cam_gb)
 
-    save_image(image_dict, os.path.basename(path))
+    save_image(image_dict, os.path.basename(path), args.layer_name)
 
 
 if __name__ == "__main__":
     """
     Usage:export KMP_DUPLICATE_LIB_OK=TRUE
-    python detection/demo.py --config-file detection/faster_rcnn_R_50_C4.yaml \
+    python detection/demo_retinanet.py --config-file detection/retinanet_R_50_FPN_3x.yaml \
       --input ./examples/pic1.jpg \
-      --opts MODEL.WEIGHTS /Users/yizuotian/pretrained_model/model_final_b1acc2.pkl MODEL.DEVICE cpu
+      --layer-name head.cls_subnet.7 \
+      --opts MODEL.WEIGHTS /Users/yizuotian/pretrained_model/model_final_4cafe0.pkl MODEL.DEVICE cpu
     """
     mp.set_start_method("spawn", force=True)
     arguments = get_parser().parse_args()
